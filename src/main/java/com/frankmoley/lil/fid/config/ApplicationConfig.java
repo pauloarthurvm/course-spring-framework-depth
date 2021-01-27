@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.sql.Time;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class ApplicationConfig {
 
-    @Value("Hello from Paulo to")
+    @Value("${app.greeting}")
     private String greeting;
+
+    @Value("${app.name}")
+    private String name;
 
     @Autowired
     private GreetingService greetingService;
@@ -29,7 +32,7 @@ public class ApplicationConfig {
 
     @Bean
     public OutputService outputService() {
-        return new OutputService(greetingService, timeService);
+        return new OutputService(greetingService, timeService, name);
     }
 
     @Bean
